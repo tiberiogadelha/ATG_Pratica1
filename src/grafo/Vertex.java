@@ -1,14 +1,11 @@
 package grafo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import no.Node;
 
 public class Vertex {
 	
 	private int id;
-	private ArrayList<Node> edges;
+	private ArrayList<Edge> edges;
 	
 	
 	public Vertex(int id) {
@@ -28,17 +25,29 @@ public class Vertex {
 	}
 
 
-	public ArrayList<Node> getEdges() {
+	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
 
 
 	public void addEdge(int id, Vertex vertex) {
-		Node newEdge = new Node(id);
+		Edge newEdge = new Edge(id);
 		newEdge.setEdge(vertex);
 		newEdge.setFatherID(this.id);
 		edges.add(newEdge);
 		
+	}
+	
+	public void addWeightEdge(int id, Vertex vertex, float weight) {
+		Edge newEdge = new WeightEdge(id, weight);
+		newEdge.setEdge(vertex);
+		newEdge.setFatherID(this.id);
+		edges.add(newEdge);
+		
+	}
+	
+	public void setEdges(ArrayList<Edge> newEdges) {
+		this.edges = newEdges;
 	}
 	
 	@Override
@@ -47,5 +56,49 @@ public class Vertex {
 		
 		return saida;
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} if (obj == null) {
+			return false;
+		} if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		Vertex other = (Vertex) obj;
+		if (id != other.id) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	public boolean hasEdge(int id) {
+		
+		for(Edge edge: edges) {
+			if(edge.getEdge().getId() == id) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	
+
+
+	
 
 }

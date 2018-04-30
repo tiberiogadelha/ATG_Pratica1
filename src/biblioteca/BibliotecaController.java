@@ -48,6 +48,40 @@ public class BibliotecaController {
 		
 	}
 	
+	public void readWeightGraph(String path) throws IOException {
+		
+		ArrayList<String> newGraph = arq.readFile(path);
+		
+		createWeightGraph(newGraph);
+		
+	}
+	
+	private void createWeightGraph(ArrayList<String> newGraph) {
+		
+		Graph graph = null;
+		boolean graphWasCreated = false;
+		
+		for(String data: newGraph) {
+			
+			if(graphWasCreated == false) {
+				graph = factory.newGraph(Integer.parseInt(data));
+				graphWasCreated = true;
+				
+			} else {
+				
+				
+				int vertex1Id = Integer.parseInt(String.valueOf(data.charAt(0)));
+				int vertex2Id = Integer.parseInt(String.valueOf(data.charAt(2)));
+				float weight = Float.parseFloat(String.valueOf(data.substring(3)));
+				graph.addWeightEdge(weight, vertex1Id, vertex2Id);
+				
+			}
+		}
+		
+		graphs.add(graph);
+		
+	}
+	
 	public int getVertexNumber(int graphId) throws Exception {
 		Graph graph = getGraph(graphId);
 		
@@ -92,6 +126,16 @@ public class BibliotecaController {
 		}
 		
 		return foundGraph;
+	}
+	
+	public double getMeanEdge(int graphID) throws Exception {
+		Graph foundGraph = getGraph(graphID);
+		
+		if(foundGraph != null) {
+			return foundGraph.getMeanEdge();
+		}
+		
+		throw new Exception("There's no graph with this ID");
 	}
 	
 	public ArrayList<Graph> getGraphs() {
