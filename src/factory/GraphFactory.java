@@ -10,6 +10,11 @@ public class GraphFactory {
 		id = 1;
 	}
 
+	/**
+	 * Cria um novo grafo, recebendo como parametro o numero de vertices.
+	 * @param numero de vertices
+	 * @return Retorna o objeto Graph 
+	 */
 	public Graph newGraph(int numberOfVertex) {
 		Graph graph = new Graph(id);
 		

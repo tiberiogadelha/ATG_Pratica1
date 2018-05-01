@@ -18,6 +18,12 @@ public class BibliotecaController {
 		graphs = new ArrayList<>();
 	}
 	
+	/**
+	 * Le as informacoes necessarias, atraves de um arquivo, para criar um grafo.
+	 * Apos a leitura, o metodo passa os dados para o metodo createGraph(graph)
+	 * @param path do arquivo
+	 * @throws IOException
+	 */
 	public void readGraph(String path) throws IOException {
 		ArrayList<String> newGraph = arq.readFile(path);
 		
@@ -26,6 +32,11 @@ public class BibliotecaController {
 		
 	}
 	
+	/**
+	 * Cria um novo grafo, atraves das infomacoes lidas no metodo readWeightGraph(path)
+	 *  e o adiciona a biblioteca
+	 * @param As informacoes para criar o grafo
+	 */
 	private void createGraph(ArrayList<String> newGraph) {
 		Graph graph = null;
 		boolean graphWasCreated = false;
@@ -48,6 +59,12 @@ public class BibliotecaController {
 		
 	}
 	
+	/**
+	 * Le as informacoes necessarias, atraves de um arquivo, para criar um grafo.
+	 * Apos a leitura, o metodo passa os dados para o metodo createWeightGraph(graph)
+	 * @param path do arquivo
+	 * @throws IOException
+	 */
 	public void readWeightGraph(String path) throws IOException {
 		
 		ArrayList<String> newGraph = arq.readFile(path);
@@ -56,6 +73,12 @@ public class BibliotecaController {
 		
 	}
 	
+	
+	/**
+	 * Cria um novo grafo, atraves das infomacoes lidas no metodo readWeightGraph(path)
+	 *  e o adiciona a biblioteca
+	 * @param As informacoes para criar o grafo
+	 */
 	private void createWeightGraph(ArrayList<String> newGraph) {
 		
 		Graph graph = null;
@@ -82,6 +105,12 @@ public class BibliotecaController {
 		
 	}
 	
+	/**
+	 * O metodo informa o numero de vertices que o grafo possui.
+	 * @param ID do grafo
+	 * @return O numero de vertices
+	 * @throws Exception
+	 */
 	public int getVertexNumber(int graphId) throws Exception {
 		Graph graph = getGraph(graphId);
 		
@@ -92,6 +121,12 @@ public class BibliotecaController {
 		throw new Exception("There's no graph with this ID");
 	}
 	
+	/**
+	 * O metodo informa o numero de arestas que o grafo possui.
+	 * @param O ID do grafo
+	 * @return O numero de arestas
+	 * @throws Exception
+	 */
 	public int getEdgeNumber(int graphId) throws Exception {
 		Graph graph = getGraph(graphId);
 		
@@ -102,6 +137,14 @@ public class BibliotecaController {
 		throw new Exception("There's no graph with this ID");
 	}
 	
+	
+	/**
+	 * Cria uma representacao para o grafo, de acordo com o tipo desejado.
+	 * @param O ID do grafo
+	 * @param O Tipo de representacao desejado
+	 * @return A representacao do grafo atraves de String
+	 * @throws Exception
+	 */
 	public String graphRepresentation(int graphId, String type) throws Exception {
 		Graph graph = getGraph(graphId);
 		
@@ -116,6 +159,12 @@ public class BibliotecaController {
 		throw new Exception("There's no graph with this ID");
 	}
 	
+	/**
+	 * Procura no sistema o grafo que possui o ID passado por parametro.
+	 * @param ID do grafo
+	 * @return O Grafo desejado
+	 */
+	
 	private Graph getGraph(int id) {
 		Graph foundGraph = null;
 		
@@ -127,6 +176,14 @@ public class BibliotecaController {
 		
 		return foundGraph;
 	}
+	
+	/**
+	 * O metodo calcula o grau medio de um grafo
+	 * recebendo como parametro o ID do grafo desejado.
+	 * @param ID do grafo
+	 * @return O grau medio do grafo
+	 * @throws Exception
+	 */
 	
 	public double getMeanEdge(int graphID) throws Exception {
 		Graph foundGraph = getGraph(graphID);
