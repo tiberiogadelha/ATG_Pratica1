@@ -2,10 +2,15 @@ package biblioteca;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import arquivo.ArquivoController;
 import factory.GraphFactory;
+import grafo.Edge;
 import grafo.Graph;
+import grafo.Vertex;
 
 
 public class BibliotecaController {
@@ -164,8 +169,8 @@ public class BibliotecaController {
 	 * @param ID do grafo
 	 * @return O Grafo desejado
 	 */
-	
-	private Graph getGraph(int id) {
+	// aqui alterado para teste
+	public Graph getGraph(int id) {
 		Graph foundGraph = null;
 		
 		for(Graph graph: graphs) {
@@ -199,5 +204,50 @@ public class BibliotecaController {
 		return this.graphs;
 	}
 	
+	public void BFS(int graphID, int vert) {
+		Graph graph = getGraph(graphID);
+		Vertex vertex = graph.getVertex(vert);
+		boolean visited[] = new boolean[graph.getVertexNumber()+1];
+		LinkedList<Vertex> queue = new LinkedList<Vertex>();
+		visited[vert] = true;
+		queue.add(vertex);
+		int level = 0;
+		System.out.println(vertex.getId() + " - "+ level);
+		while(queue.size() != 0) {
+			Vertex newVert = queue.poll();
+			if(queue.isEmpty())
+				level++;
+			ArrayList<Edge> vertexAdj = newVert.getEdges();		
+			for(int i=0; i<vertexAdj.size(); i++) {
+				Edge n = vertexAdj.get(i);
+				if(!visited[n.getEdge().getId()]) {
+					visited[n.getEdge().getId()] = true;
+					queue.add(n.getEdge());
+					System.out.println(n.getEdge().getId() + " " + n.getFatherID() + " " + level);
+				}
+			}
+		}
+	}
+	
+	private void DFSUtil(Vertex vertex, boolean[] visited, int newLevel) {
+		visited[vertex.getId()] = true;
+		ArrayList<Edge> vertexAdj = vertex.getEdges();
+		for(int i=0; i<vertexAdj.size(); i++) {
+			Edge n = vertexAdj.get(i);
+			if(!visited[n.getEdge().getId()]) {
+				System.out.println(n.getEdge().getId() + " " + n.getFatherID() + " " + newLevel);
+				DFSUtil(n.getEdge(), visited, newLevel+1);
+			}
+		}
+	}
+	
+	public void DFS(int graphID, int vert) {
+		Graph graph = getGraph(graphID);
+		Vertex vertex = graph.getVertex(vert);
+		boolean visited[] = new boolean[graph.getVertexNumber()+1];
+		visited[0] = true;
+		System.out.println(vertex.getId()+" - "+"0");
+		DFSUtil(vertex, visited, 1);
 
+	}
 }

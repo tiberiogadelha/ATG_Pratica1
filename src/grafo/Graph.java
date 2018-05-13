@@ -85,7 +85,7 @@ public class Graph {
 	 * @param ID do vertice procurado
 	 * @return O vertice que possui o ID passado por parametro
 	 */
-	private Vertex getVertex(int id) {
+	public Vertex getVertex(int id) {
 		Vertex foundVertex = null;
 		
 		for(Vertex vertex: vertices) {

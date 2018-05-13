@@ -8,6 +8,7 @@ public class Edge implements Comparable<Edge>{
 	
 	public Edge(int id) {
 		this.setId(id);
+
 	}
 
 	public int getId() {
