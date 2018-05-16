@@ -50,7 +50,7 @@ public class Vertex {
 	 * @param Peso da aresta
 	 */
 	public void addWeightEdge(int id, Vertex vertex, float weight) {
-		Edge newEdge = new WeightEdge(id, weight);
+		Edge newEdge = new WeightedEdge(id, weight);
 		newEdge.setEdge(vertex);
 		newEdge.setFatherID(this.id);
 		edges.add(newEdge);
@@ -60,7 +60,7 @@ public class Vertex {
 	/**
 	 * O metodo verifica se o vertice tem uma aresta conectada com vertice passado por parametro.
 	 * @param ID do segundo vertice
-	 * @return Retorna true, se o vertice atual tem conexao com o grafo passado por parametro. E false, se não tiver.
+	 * @return Retorna true, se o vertice atual tem conexao com o grafo passado por parametro. E false, se nï¿½o tiver.
 	 */
 	public boolean hasEdge(int id) {
 		
@@ -73,6 +73,16 @@ public class Vertex {
 		return false;
 	}
 	
+	public Edge getEdge(int id) {
+		
+		for(Edge edge: edges) {
+			if(edge.getEdge().getId() == id) {
+				return edge;
+			}
+		}
+		
+		return null;
+	}
 	public void setEdges(ArrayList<Edge> newEdges) {
 		this.edges = newEdges;
 	}

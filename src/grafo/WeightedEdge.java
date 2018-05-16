@@ -1,10 +1,10 @@
 package grafo;
 
-public class WeightEdge extends Edge {
+public class WeightedEdge extends Edge {
 	
 	private float weight;
 
-	public WeightEdge(int id, float weight) {
+	public WeightedEdge(int id, float weight) {
 		super(id);
 		this.weight = weight;
 	}

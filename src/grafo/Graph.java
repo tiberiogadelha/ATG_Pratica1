@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Graph {
 	
-	private final String LS = System.lineSeparator();
+	protected final String LS = System.lineSeparator();
 	
-	private int idForEdges = 1;
-	private int id;
-	private ArrayList<Vertex> vertices;
+	protected int idForEdges = 1;
+	protected int id;
+	protected ArrayList<Vertex> vertices;
 	
 	
 	public Graph(int id) {
@@ -70,15 +70,6 @@ public class Graph {
 	 * @param ID do vertice 1
 	 * @param ID do vertice 2
 	 */
-	public void addWeightEdge(float weight, int vertex1Id, int vertex2Id) {
-		Vertex vertex1 = getVertex(vertex1Id);
-		Vertex vertex2 = getVertex(vertex2Id);
-		
-		vertex1.addWeightEdge(idForEdges, vertex2, weight);
-		vertex2.addWeightEdge(idForEdges, vertex1, weight);
-		
-		idForEdges++;
-	}
 	
 	/**
 	 * O metodo procura no grafo o vertice que possui a id do parametro
@@ -183,10 +174,10 @@ public class Graph {
 	/**
 	 * O metodo como o vertice esta conectado com os demais vertices do grafo.
 	 * Se determinado vertice X tiver conexao com o vertice Y, 1 eh colocado no aux.
-	 * Se não, 0 eh colocado no aux.
+	 * Se nï¿½o, 0 eh colocado no aux.
 	 * @return Um array de String que representa como os vertices estao conectados entre si.
 	 */
-	private String[] checkConnectionBetweenVertices() {
+	protected String[] checkConnectionBetweenVertices() {
 		String[] saida = new String[vertices.size()];
 		
 		String aux = "";
@@ -242,14 +233,20 @@ public class Graph {
 	 * O metodo calcula o grau medio do grafo.
 	 * @return O grau medio do grafo.
 	 */
-	public float getMeanEdge() {
-		return (2*idForEdges)/vertices.size();
+	public double getMeanEdge() {
+		double edge = Double.valueOf(getEdgeNumber());
+		double vertex = Double.valueOf(getVertexNumber());
+
+		return 2*edge/vertex;
+				
+		
+		//return (double)2*idForEdges/getVertexNumber();
 	}
 	
 	/**
 	 * O metodo ordena as arestas de cada vertice, por ID.
 	 */
-	private void sortVertices() {
+	protected void sortVertices() {
 		for(Vertex vertex: vertices) {
 			vertex.getEdges().sort(null);
 		}

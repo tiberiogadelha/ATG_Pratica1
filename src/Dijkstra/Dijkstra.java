@@ -13,7 +13,7 @@ import java.util.Set;
 import grafo.Edge;
 import grafo.Graph;
 import grafo.Vertex;
-import grafo.WeightEdge;
+import grafo.WeightedEdge;
 
 public class Dijkstra {
 	private final List<Vertex> vertex;
@@ -62,7 +62,7 @@ public class Dijkstra {
 	private float getDistance(Vertex node, Vertex target) throws Exception {
 		for(Edge edge : this.edges) {
 			if(edge.getFatherID() == node.getId() && edge.getEdge().getId() == target.getId()) {
-				WeightEdge aux = new WeightEdge(1, 1);
+				WeightedEdge aux = new WeightedEdge(1, 1);
 				return aux.getWeight();
 			}
 		}

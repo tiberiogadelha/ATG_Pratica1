@@ -11,6 +11,7 @@ import factory.GraphFactory;
 import grafo.Edge;
 import grafo.Graph;
 import grafo.Vertex;
+import grafo.WeightedGraph;
 
 
 public class BibliotecaController {
@@ -86,13 +87,13 @@ public class BibliotecaController {
 	 */
 	private void createWeightGraph(ArrayList<String> newGraph) {
 		
-		Graph graph = null;
+		WeightedGraph graph = null;
 		boolean graphWasCreated = false;
 		
 		for(String data: newGraph) {
 			
 			if(graphWasCreated == false) {
-				graph = factory.newGraph(Integer.parseInt(data));
+				graph = factory.newWeightedGraph(Integer.parseInt(data));
 				graphWasCreated = true;
 				
 			} else {
@@ -101,7 +102,7 @@ public class BibliotecaController {
 				int vertex1Id = Integer.parseInt(String.valueOf(data.charAt(0)));
 				int vertex2Id = Integer.parseInt(String.valueOf(data.charAt(2)));
 				float weight = Float.parseFloat(String.valueOf(data.substring(3)));
-				graph.addWeightEdge(weight, vertex1Id, vertex2Id);
+				graph.addEdge(weight, vertex1Id, vertex2Id);
 				
 			}
 		}

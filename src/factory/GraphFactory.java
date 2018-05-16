@@ -1,6 +1,7 @@
 package factory;
 
 import grafo.Graph;
+import grafo.WeightedGraph;
 
 public class GraphFactory {
 
@@ -17,6 +18,18 @@ public class GraphFactory {
 	 */
 	public Graph newGraph(int numberOfVertex) {
 		Graph graph = new Graph(id);
+		
+		for(int i = 1; i <= numberOfVertex; i++) {
+			graph.addVertix(i);
+		}
+		
+		id++;
+		
+		return graph;
+	}
+	
+	public WeightedGraph newWeightedGraph(int numberOfVertex) {
+		WeightedGraph graph = new WeightedGraph(id);
 		
 		for(int i = 1; i <= numberOfVertex; i++) {
 			graph.addVertix(i);
