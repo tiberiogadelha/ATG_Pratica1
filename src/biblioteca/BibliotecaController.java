@@ -221,10 +221,10 @@ public class BibliotecaController {
 			ArrayList<Edge> vertexAdj = newVert.getEdges();		
 			for(int i=0; i<vertexAdj.size(); i++) {
 				Edge n = vertexAdj.get(i);
-				if(!visited[n.getEdge().getId()]) {
-					visited[n.getEdge().getId()] = true;
-					queue.add(n.getEdge());
-					System.out.println(n.getEdge().getId() + " " + n.getFatherID() + " " + level);
+				if(!visited[n.getConnectedTo().getId()]) {
+					visited[n.getConnectedTo().getId()] = true;
+					queue.add(n.getConnectedTo());
+					System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level);
 				}
 			}
 		}
@@ -235,9 +235,9 @@ public class BibliotecaController {
 		ArrayList<Edge> vertexAdj = vertex.getEdges();
 		for(int i=0; i<vertexAdj.size(); i++) {
 			Edge n = vertexAdj.get(i);
-			if(!visited[n.getEdge().getId()]) {
-				System.out.println(n.getEdge().getId() + " " + n.getFatherID() + " " + newLevel);
-				DFSUtil(n.getEdge(), visited, newLevel+1);
+			if(!visited[n.getConnectedTo().getId()]) {
+				System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + newLevel);
+				DFSUtil(n.getConnectedTo(), visited, newLevel+1);
 			}
 		}
 	}

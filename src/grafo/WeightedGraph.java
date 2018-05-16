@@ -14,6 +14,8 @@ public class WeightedGraph extends Graph {
 		vertex1.addWeightEdge(idForEdges, vertex2, weight);
 		vertex2.addWeightEdge(idForEdges, vertex1, weight);
 		
+		edges.add(vertex1.getEdge(vertex2Id));
+		
 		idForEdges++;
 	}
 	
@@ -96,7 +98,7 @@ public class WeightedGraph extends Graph {
 		for(Vertex vertex: vertices) {
 			saida += vertex.getId() + " - ";
 			for(Edge edge: vertex.getEdges()) {
-				saida += edge.getEdge().getId() +"(" + ((WeightedEdge) edge).getWeight() + ")" + " ";
+				saida += edge.getConnectedTo().getId() +"(" + ((WeightedEdge) edge).getWeight() + ")" + " ";
 			}
 			saida += LS;
 		}

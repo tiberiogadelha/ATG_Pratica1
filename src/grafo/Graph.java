@@ -9,11 +9,13 @@ public class Graph {
 	protected int idForEdges = 1;
 	protected int id;
 	protected ArrayList<Vertex> vertices;
+	protected ArrayList<Edge> edges;
 	
 	
 	public Graph(int id) {
 		this.setId(id);
 		this.vertices = new ArrayList<>();
+		this.edges = new ArrayList<>();
 	}
 
 
@@ -34,6 +36,10 @@ public class Graph {
 
 	public void setVertex(ArrayList<Vertex> vertix) {
 		this.vertices = vertix;
+	}
+	
+	public ArrayList<Edge> getEdges() {
+		return this.edges;
 	}
 
 	
@@ -59,6 +65,8 @@ public class Graph {
 		
 		vertex1.addEdge(idForEdges, vertex2);
 		vertex2.addEdge(idForEdges, vertex1);
+		
+		edges.add(vertex1.getEdge(vertex2Id));
 		
 		idForEdges++;
 		
@@ -221,7 +229,7 @@ public class Graph {
 		for(Vertex vertex: vertices) {
 			saida += vertex.getId() + " - ";
 			for(Edge edge: vertex.getEdges()) {
-				saida += edge.getEdge().getId() + " ";
+				saida += edge.getConnectedTo().getId() + " ";
 			}
 			saida += LS;
 		}

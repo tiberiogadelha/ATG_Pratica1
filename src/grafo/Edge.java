@@ -4,7 +4,7 @@ public class Edge implements Comparable<Edge>{
 	
 	private int id;
 	private int fatherID;
-	private Vertex edge;
+	private Vertex connectedTo;
 	
 	public Edge(int id) {
 		this.setId(id);
@@ -19,12 +19,12 @@ public class Edge implements Comparable<Edge>{
 		this.id = id;
 	}
 
-	public Vertex getEdge() {
-		return edge;
+	public Vertex getConnectedTo() {
+		return connectedTo;
 	}
 
 	public void setEdge(Vertex edge) {
-		this.edge = edge;
+		this.connectedTo = edge;
 	}
 
 	
@@ -39,7 +39,7 @@ public class Edge implements Comparable<Edge>{
 	
 	@Override
 	public String toString() {
-		String saida = "Edge's ID: " + id + " | " + fatherID + " --- " + edge.getId() + " ";
+		String saida = "Edge's ID: " + id + " | " + fatherID + " --- " + connectedTo.getId() + " ";
 		
 		return saida;
 	}
@@ -73,9 +73,9 @@ public class Edge implements Comparable<Edge>{
 
 	@Override
 	public int compareTo(Edge o) {
-		if (o.getEdge().getId() < this.edge.getId()) {
+		if (o.getConnectedTo().getId() < this.connectedTo.getId()) {
 			return 1;
-		} else if (o.getEdge().getId() > this.edge.getId()){
+		} else if (o.getConnectedTo().getId() > this.connectedTo.getId()){
 			return -1;
 		} else {
 			return 0;

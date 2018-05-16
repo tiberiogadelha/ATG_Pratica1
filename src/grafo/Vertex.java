@@ -65,7 +65,7 @@ public class Vertex {
 	public boolean hasEdge(int id) {
 		
 		for(Edge edge: edges) {
-			if(edge.getEdge().getId() == id) {
+			if(edge.getConnectedTo().getId() == id) {
 				return true;
 			}
 		}
@@ -76,7 +76,7 @@ public class Vertex {
 	public Edge getEdge(int id) {
 		
 		for(Edge edge: edges) {
-			if(edge.getEdge().getId() == id) {
+			if(edge.getConnectedTo().getId() == id) {
 				return edge;
 			}
 		}

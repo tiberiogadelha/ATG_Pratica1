@@ -19,7 +19,7 @@ public class WeightedEdge extends Edge {
 	
 	@Override
 	public String toString() {
-		String saida = "Edge's ID: " + super.getId() + " | Weight: " + weight + "| " +  + super.getFatherID() + " --- " + super.getEdge().getId() + " ";
+		String saida = "Edge's ID: " + super.getId() + " | Weight: " + weight + "| " +  + super.getFatherID() + " --- " + super.getConnectedTo().getId() + " ";
 		
 		return saida;
 	}

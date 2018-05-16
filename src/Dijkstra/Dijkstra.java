@@ -61,7 +61,7 @@ public class Dijkstra {
 	
 	private float getDistance(Vertex node, Vertex target) throws Exception {
 		for(Edge edge : this.edges) {
-			if(edge.getFatherID() == node.getId() && edge.getEdge().getId() == target.getId()) {
+			if(edge.getFatherID() == node.getId() && edge.getConnectedTo().getId() == target.getId()) {
 				WeightedEdge aux = new WeightedEdge(1, 1);
 				return aux.getWeight();
 			}
@@ -72,8 +72,8 @@ public class Dijkstra {
 	private List<Vertex> getNeighbors(Vertex node){
 		List<Vertex> neighbors = new ArrayList<Vertex>();
 		for(Edge edge: this.edges) {
-			if(edge.getFatherID() == node.getId() && !isSettled(edge.getEdge())) {
-				neighbors.add(edge.getEdge());
+			if(edge.getFatherID() == node.getId() && !isSettled(edge.getConnectedTo())) {
+				neighbors.add(edge.getConnectedTo());
 			}
 		}
 		return neighbors;

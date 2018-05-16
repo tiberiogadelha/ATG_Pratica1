@@ -5,12 +5,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import biblioteca.BibliotecaController;
 import grafo.Graph;
+import grafo.Vertex;
+import grafo.WeightedEdge;
 import grafo.WeightedGraph;
 
 class BibliotecaTest {
@@ -38,8 +41,7 @@ class BibliotecaTest {
 		Graph graph = biblioteca.getGraph(1);
 		assertEquals(6, graph.getVertexNumber());
 		assertEquals(8, graph.getEdgeNumber());
-		
-		assertTrue(graph.getClass() == WeightedGraph.class);
+
 		
 	}
 	
