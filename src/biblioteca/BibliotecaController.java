@@ -322,4 +322,44 @@ public class BibliotecaController {
 		}
 
 	}
+	
+	public void kruskalMST(int graphID) {
+		Graph graph = getGraph(graphID);
+		ArrayList<WeightedEdge> weightEdges = new ArrayList<WeightedEdge>();
+		WeightedEdge[] wes = new WeightedEdge[graph.getVertexNumber()+1];
+		int j = 0;
+		for(Edge edge : graph.getEdges()) {
+			WeightedEdge we = (WeightedEdge) edge;
+			weightEdges.add(we);
+			wes[j] = we;
+			j++;
+		}
+		
+		String outputmessage = "";
+		int count = graph.getVertexNumber();
+		Arrays.sort(wes, new Comparator<WeightedEdge>() {
+			public int compare(WeightedEdge a1, WeightedEdge a2) {
+				if(a1.compareTo(a2) > 0) {
+					return 1;
+				}else if(a1.compareTo(a2) == 0) {
+					return 0;
+				}else {
+					return -1;
+				}
+			}
+			
+		});
+		ArrayList<WeightedEdge> mstEdges = new ArrayList<WeightedEdge>();
+		DisjoinSet vertexSet = new DisjoinSet(count+1);
+		for(int i=0; i<graph.getVertexNumber() && mstEdges.size()<(count-1); i++) {
+			WeightedEdge currentEdge = wes[i];
+			int root1 = vertexSet.find(currentEdge.getFatherID());
+			int root2 = vertexSet.find(currentEdge.getConnectedTo().getId());
+			if(root1!=root2) {
+				mstEdges.add(currentEdge);
+				vertexSet.union(root1, root2);
+				System.out.println(currentEdge.getFatherID() + " " +currentEdge.getConnectedTo().getId());;
+			}
+		}
+	}
 }
