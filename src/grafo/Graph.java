@@ -241,9 +241,10 @@ public class Graph {
 	 * O metodo calcula o grau medio do grafo.
 	 * @return O grau medio do grafo.
 	 */
-	public double getMeanEdge() {
-		double edge = Double.valueOf(getEdgeNumber());
-		double vertex = Double.valueOf(getVertexNumber());
+	public float getMeanEdge() {
+		
+		float edge = Float.valueOf(getEdgeNumber());
+		float vertex = Float.valueOf(getVertexNumber());
 
 		return 2*edge/vertex;
 				

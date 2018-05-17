@@ -2,19 +2,25 @@ package biblioteca;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import Dijkstra.Dijkstra;
 import arquivo.ArquivoController;
 import factory.GraphFactory;
 import grafo.Edge;
 import grafo.Graph;
 import grafo.Vertex;
+import grafo.WeightedEdge;
 import grafo.WeightedGraph;
+import kruskal.DisjoinSet;
 
 public class BibliotecaController {
 
+	private final String LS = System.lineSeparator();
 	private ArquivoController arq = new ArquivoController();
 	private ArrayList<Graph> graphs;
 	private GraphFactory factory = new GraphFactory();
@@ -184,7 +190,6 @@ public class BibliotecaController {
 	 *            do grafo
 	 * @return O Grafo desejado
 	 */
-	// aqui alterado para teste
 	public Graph getGraph(int id) {
 		Graph foundGraph = null;
 
@@ -207,7 +212,7 @@ public class BibliotecaController {
 	 * @throws Exception
 	 */
 
-	public double getMeanEdge(int graphID) throws Exception {
+	public Float getMeanEdge(int graphID) throws Exception {
 		Graph foundGraph = getGraph(graphID);
 
 		if (foundGraph != null) {
@@ -220,8 +225,15 @@ public class BibliotecaController {
 	public ArrayList<Graph> getGraphs() {
 		return this.graphs;
 	}
-
-	public void BFS(int graphID, int vert) {
+	
+	/**
+	 * Realiza e imprime o resultado de uma BFS num determinando grafo, a partir de um certo vertice
+	 * @param graphID O ID do grafo
+	 * @param vert O vertice pelo qual a BFS vai comecar.
+	 */
+	public String BFS(int graphID, int vert) {
+		String bfs = "";
+		
 		Graph graph = getGraph(graphID);
 		Vertex vertex = graph.getVertex(vert);
 		boolean visited[] = new boolean[graph.getVertexNumber() + 1];
@@ -229,7 +241,8 @@ public class BibliotecaController {
 		visited[vert] = true;
 		queue.add(vertex);
 		int level = 0;
-		System.out.println(vertex.getId() + " - " + level);
+		bfs += vertex.getId() + " - " + level + LS;
+		//System.out.println(vertex.getId() + " - " + level);
 		while (queue.size() != 0) {
 			Vertex newVert = queue.poll();
 			if (queue.isEmpty())
@@ -240,10 +253,13 @@ public class BibliotecaController {
 				if (!visited[n.getConnectedTo().getId()]) {
 					visited[n.getConnectedTo().getId()] = true;
 					queue.add(n.getConnectedTo());
-					System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level);
+					bfs += n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level + LS;
+					//System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level);
 				}
 			}
 		}
+		
+		return bfs;
 	}
 
 	private void DFSUtil(Vertex vertex, boolean[] visited, int newLevel) {
@@ -257,7 +273,12 @@ public class BibliotecaController {
 			}
 		}
 	}
-
+	
+	/**
+	 * Realiza e imprime o resultado de uma DFS num grafo, a partir de um certo vertice
+	 * @param graphID O id do grafo
+	 * @param vert O vertice pela qual a DFS vai comecar
+	 */
 	public void DFS(int graphID, int vert) {
 		Graph graph = getGraph(graphID);
 		Vertex vertex = graph.getVertex(vert);
@@ -312,7 +333,6 @@ public class BibliotecaController {
 	 *            do grafo
 	 * @return O indice do primeiro vertice conectado
 	 */
-
 	private int getNextVertex(Vertex vertex) {
 		Edge edge = vertex.getEdges().get(0);
 		if (edge != null) {
@@ -323,7 +343,11 @@ public class BibliotecaController {
 
 	}
 	
-	public void kruskalMST(int graphID) {
+	/**
+	 * O metodo gera e imprime a MST de um grafo
+	 * @param graphID O id do grafo
+	 */
+	public void MST(int graphID) {
 		Graph graph = getGraph(graphID);
 		ArrayList<WeightedEdge> weightEdges = new ArrayList<WeightedEdge>();
 		WeightedEdge[] wes = new WeightedEdge[graph.getVertexNumber()+1];
@@ -361,5 +385,23 @@ public class BibliotecaController {
 				System.out.println(currentEdge.getFatherID() + " " +currentEdge.getConnectedTo().getId());;
 			}
 		}
+	}
+	
+	/**
+	 * Calcula e imprime o menor caminho entre 2 vertices de um grafo.
+	 * @param graphID O id do grafo
+	 * @param vertex1ID ID do primeiro vertice
+	 * @param vertex2ID ID do segundo vertice
+	 * @throws Exception 
+	 */
+	public void shortestPath(int graphID, int vertex1ID, int vertex2ID) throws Exception {
+		Graph graph = getGraph(graphID);
+		
+		Dijkstra dij = new Dijkstra(graph);
+		Vertex ver = graph.getVertex(vertex1ID);
+		Vertex ver2 = graph.getVertex(vertex2ID);
+		dij.execute(ver);
+		LinkedList<Vertex> path = dij.getPath(ver2);
+			
 	}
 }
