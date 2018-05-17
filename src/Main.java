@@ -1,20 +1,13 @@
-
-
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Scanner;
 
-import Dijkstra.Dijkstra;
-import biblioteca.BibliotecaController;
 import biblioteca.BibliotecaFacade;
 import grafo.Graph;
-import grafo.Vertex;
 
 public class Main {
 	
-	private static final String LS = System.lineSeparator();
 	public static Scanner sc = new Scanner(System.in);
-	public static BibliotecaFacade biblioteca = new BibliotecaFacade();
+	private static BibliotecaFacade biblioteca = new BibliotecaFacade();
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -124,23 +117,6 @@ public class Main {
 			
 		}
 		
-		
-		BibliotecaController bb = new BibliotecaController();
-		bb.readGraph("grafo1.txt");
-		bb.getGraphs();
-		
-		showMenu();
-		bb.readWeightGraph("grafo2.txt");
-		bb.BFS(1, 1);
-		bb.DFS(1, 1);
-		Graph graph = bb.getGraph(1);
-		Dijkstra dij = new Dijkstra(graph);
-		Vertex ver = graph.getVertex(3);
-		Vertex ver2 = graph.getVertex(4);
-		dij.execute(ver);
-		LinkedList<Vertex> path = dij.getPath(ver2);
-		System.out.println(path.size()-1);
-		bb.MST(2);
 	
 	}
 	
@@ -340,7 +316,7 @@ public class Main {
 		sc.nextLine();
 		
 		try {
-			biblioteca.shortestPath(id, vertex1Id, vertex2Id);
+			System.out.println(biblioteca.shortestPath(id, vertex1Id, vertex2Id));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

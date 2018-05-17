@@ -48,8 +48,8 @@ public class BibliotecaFacade {
 		return biblioteca.connected(graphID);
 	}
 	
-	public void shortestPath(int graphID, int vertex1ID, int vertex2ID) throws Exception {
-		biblioteca.shortestPath(graphID, vertex1ID, vertex2ID);
+	public String shortestPath(int graphID, int vertex1ID, int vertex2ID) throws Exception {
+		return biblioteca.shortestPath(graphID, vertex1ID, vertex2ID);
 	}
 	
 	public void MST(int graphID) {

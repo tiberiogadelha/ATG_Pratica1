@@ -49,8 +49,7 @@ public class BibliotecaController {
 	 * Cria um novo grafo, atraves das infomacoes lidas no metodo
 	 * readWeightGraph(path) e o adiciona a biblioteca
 	 * 
-	 * @param As
-	 *            informacoes para criar o grafo
+	 * @param As informacoes para criar o grafo
 	 */
 	private void createGraph(ArrayList<String> newGraph) {
 		Graph graph = null;
@@ -95,8 +94,7 @@ public class BibliotecaController {
 	 * Cria um novo grafo, atraves das infomacoes lidas no metodo
 	 * readWeightGraph(path) e o adiciona a biblioteca
 	 * 
-	 * @param As
-	 *            informacoes para criar o grafo
+	 * @param As informacoes para criar o grafo
 	 */
 	private void createWeightGraph(ArrayList<String> newGraph) {
 
@@ -359,7 +357,7 @@ public class BibliotecaController {
 			j++;
 		}
 		
-		String outputmessage = "";
+		
 		int count = graph.getVertexNumber();
 		Arrays.sort(wes, new Comparator<WeightedEdge>() {
 			public int compare(WeightedEdge a1, WeightedEdge a2) {
@@ -375,11 +373,13 @@ public class BibliotecaController {
 		});
 		ArrayList<WeightedEdge> mstEdges = new ArrayList<WeightedEdge>();
 		DisjoinSet vertexSet = new DisjoinSet(count+1);
-		for(int i=0; i<graph.getVertexNumber() && mstEdges.size()<(count-1); i++) {
+		
+		for(int i=0; i < graph.getVertexNumber() && mstEdges.size() < (count-1); i++) {
 			WeightedEdge currentEdge = wes[i];
 			int root1 = vertexSet.find(currentEdge.getFatherID());
 			int root2 = vertexSet.find(currentEdge.getConnectedTo().getId());
-			if(root1!=root2) {
+			
+			if(root1 != root2) {
 				mstEdges.add(currentEdge);
 				vertexSet.union(root1, root2);
 				System.out.println(currentEdge.getFatherID() + " " +currentEdge.getConnectedTo().getId());;
@@ -394,7 +394,8 @@ public class BibliotecaController {
 	 * @param vertex2ID ID do segundo vertice
 	 * @throws Exception 
 	 */
-	public void shortestPath(int graphID, int vertex1ID, int vertex2ID) throws Exception {
+	public String shortestPath(int graphID, int vertex1ID, int vertex2ID) throws Exception {
+		String shortestPath = "";
 		Graph graph = getGraph(graphID);
 		
 		Dijkstra dij = new Dijkstra(graph);
@@ -402,6 +403,21 @@ public class BibliotecaController {
 		Vertex ver2 = graph.getVertex(vertex2ID);
 		dij.execute(ver);
 		LinkedList<Vertex> path = dij.getPath(ver2);
+		
+		Vertex vv = path.get(0); // Shortest path.
+		shortestPath += vv.getId() + " ";
+		
+		for(int i = 0; i < vv.getEdges().size(); i++) {
+			if(i +1  < vv.getEdges().size()) {
+				shortestPath += vv.getEdges().get(i).getConnectedTo().getId() + " ";
+				
+			} else {
+				shortestPath += vv.getEdges().get(i).getConnectedTo().getId();
+			}
+		}
+		
+		return shortestPath;
+		
 			
 	}
 }
