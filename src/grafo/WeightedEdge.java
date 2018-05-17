@@ -23,5 +23,9 @@ public class WeightedEdge extends Edge {
 		
 		return saida;
 	}
+	
+	public float compareTo(WeightedEdge otherEdge) {
+		return this.getWeight() - otherEdge.getWeight();
+	}
 
 }
