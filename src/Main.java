@@ -25,6 +25,7 @@ public class Main {
 		dij.execute(ver);
 		LinkedList<Vertex> path = dij.getPath(ver2);
 		System.out.println(path.size()-1);
+		bb.kruskalMST(2);
 	
 	}
 }
