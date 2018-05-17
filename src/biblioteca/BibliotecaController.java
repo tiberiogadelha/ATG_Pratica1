@@ -239,8 +239,7 @@ public class BibliotecaController {
 		visited[vert] = true;
 		queue.add(vertex);
 		int level = 0;
-		bfs += vertex.getId() + " - " + level + LS;
-		//System.out.println(vertex.getId() + " - " + level);
+		bfs += vertex.getId() + " " + level + " -" + LS;
 		while (queue.size() != 0) {
 			Vertex newVert = queue.poll();
 			if (queue.isEmpty())
@@ -251,7 +250,7 @@ public class BibliotecaController {
 				if (!visited[n.getConnectedTo().getId()]) {
 					visited[n.getConnectedTo().getId()] = true;
 					queue.add(n.getConnectedTo());
-					bfs += n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level + LS;
+					bfs += n.getConnectedTo().getId() + " " + level + " " + n.getFatherID() + LS;
 					//System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level);
 				}
 			}
@@ -266,7 +265,7 @@ public class BibliotecaController {
 		for (int i = 0; i < vertexAdj.size(); i++) {
 			Edge n = vertexAdj.get(i);
 			if (!visited[n.getConnectedTo().getId()]) {
-				System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + newLevel);
+				System.out.println(n.getConnectedTo().getId() + " " + newLevel + " " + n.getFatherID());
 				DFSUtil(n.getConnectedTo(), visited, newLevel + 1);
 			}
 		}
@@ -282,7 +281,7 @@ public class BibliotecaController {
 		Vertex vertex = graph.getVertex(vert);
 		boolean visited[] = new boolean[graph.getVertexNumber() + 1];
 		visited[0] = true;
-		System.out.println(vertex.getId() + " - " + "0");
+		System.out.println(vertex.getId() + " 0 "+ "-");
 		DFSUtil(vertex, visited, 1);
 
 	}
@@ -403,16 +402,12 @@ public class BibliotecaController {
 		Vertex ver2 = graph.getVertex(vertex2ID);
 		dij.execute(ver);
 		LinkedList<Vertex> path = dij.getPath(ver2);
-		
-		Vertex vv = path.get(0); // Shortest path.
-		shortestPath += vv.getId() + " ";
-		
-		for(int i = 0; i < vv.getEdges().size(); i++) {
-			if(i +1  < vv.getEdges().size()) {
-				shortestPath += vv.getEdges().get(i).getConnectedTo().getId() + " ";
 				
-			} else {
-				shortestPath += vv.getEdges().get(i).getConnectedTo().getId();
+		for(int i=0;i<path.size();i++) {
+			if(i+1<path.size()) {
+				shortestPath += path.get(i).getId()+" ";
+			}else {
+				shortestPath += path.get(i).getId();
 			}
 		}
 		

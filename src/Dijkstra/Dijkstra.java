@@ -62,7 +62,7 @@ public class Dijkstra {
 	private float getDistance(Vertex node, Vertex target) throws Exception {
 		for(Edge edge : this.edges) {
 			if(edge.getFatherID() == node.getId() && edge.getConnectedTo().getId() == target.getId()) {
-				WeightedEdge aux = new WeightedEdge(1, 1);
+				WeightedEdge aux = (WeightedEdge) edge;
 				return aux.getWeight();
 			}
 		}
