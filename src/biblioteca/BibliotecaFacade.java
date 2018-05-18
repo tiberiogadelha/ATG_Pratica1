@@ -1,6 +1,5 @@
 package biblioteca;
 
-import java.io.IOException;
 
 import grafo.Graph;
 
@@ -12,11 +11,11 @@ public class BibliotecaFacade {
 		biblioteca = new BibliotecaController();
 	}
 	
-	public void readGraph(String path) throws IOException {
+	public void readGraph(String path) throws Exception {
 		biblioteca.readGraph(path);
 	}
 	
-	public void readWeightGraph(String path) throws IOException {
+	public void readWeightGraph(String path) throws Exception {
 		biblioteca.readWeightGraph(path);
 	}
 	
@@ -52,7 +51,7 @@ public class BibliotecaFacade {
 		return biblioteca.shortestPath(graphID, vertex1ID, vertex2ID);
 	}
 	
-	public void MST(int graphID) {
+	public void MST(int graphID) throws Exception {
 		biblioteca.MST(graphID);
 	}
 	

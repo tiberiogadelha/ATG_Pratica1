@@ -1,11 +1,10 @@
 package biblioteca;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,9 +37,9 @@ public class BibliotecaController {
 	 * 
 	 * @param path
 	 *            do arquivo
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public void readGraph(String path) throws IOException {
+	public void readGraph(String path) throws Exception {
 		ArrayList<String> newGraph = arq.readFile(path);
 
 		createGraph(newGraph);
@@ -52,18 +51,24 @@ public class BibliotecaController {
 	 * readGraph(path) e o adiciona a biblioteca
 	 * 
 	 * @param As informacoes para criar o grafo
+	 * @throws Exception 
 	 */
-	private void createGraph(ArrayList<String> newGraph) {
+	private void createGraph(ArrayList<String> newGraph) throws Exception {
 		int vertexNumber = Integer.parseInt(newGraph.get(0));
 		Graph graph = factory.newGraph(vertexNumber);
 		
 		for(int i = 1; i < newGraph.size(); i++) {
 			String edge = newGraph.get(i);
 			String[] vertex = edge.split(" ");
-			int vertex1Id = Integer.parseInt(String.valueOf(vertex[0]));
-			int vertex2Id = Integer.parseInt(String.valueOf(vertex[1]));
+			if(vertex.length == 2) {
+				int vertex1Id = Integer.parseInt(String.valueOf(vertex[0]));
+				int vertex2Id = Integer.parseInt(String.valueOf(vertex[1]));
 			
-			graph.addEdge(vertex1Id, vertex2Id);
+				graph.addEdge(vertex1Id, vertex2Id);
+				
+			} else {
+				throw new Exception("Try another graph! A graph's edge has to be between 2 vertices");
+			}
 		}
 		
 
@@ -78,9 +83,9 @@ public class BibliotecaController {
 	 * 
 	 * @param path
 	 *            do arquivo
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public void readWeightGraph(String path) throws IOException {
+	public void readWeightGraph(String path) throws Exception {
 
 		ArrayList<String> newGraph = arq.readFile(path);
 
@@ -93,8 +98,9 @@ public class BibliotecaController {
 	 * readWeightGraph(path) e o adiciona a biblioteca
 	 * 
 	 * @param As informacoes para criar o grafo
+	 * @throws Exception 
 	 */
-	private void createWeightGraph(ArrayList<String> newGraph) {
+	private void createWeightGraph(ArrayList<String> newGraph) throws Exception {
 
 		int vertexNumber = Integer.parseInt(newGraph.get(0));
 		WeightedGraph graph = factory.newWeightedGraph(vertexNumber);
@@ -103,11 +109,16 @@ public class BibliotecaController {
 			
 			String edge = newGraph.get(i);
 			String[] vertex = edge.split(" ");
-			int vertex1Id = Integer.parseInt(String.valueOf(vertex[0]));
-			int vertex2Id = Integer.parseInt(String.valueOf(vertex[1]));
-			float weight = Float.parseFloat(String.valueOf(vertex[2]));
 			
-			graph.addEdge(weight, vertex1Id, vertex2Id);
+			if(vertex.length == 3) {
+				int vertex1Id = Integer.parseInt(String.valueOf(vertex[0]));
+				int vertex2Id = Integer.parseInt(String.valueOf(vertex[1]));
+				float weight = Float.parseFloat(String.valueOf(vertex[2]));
+			
+				graph.addEdge(weight, vertex1Id, vertex2Id);
+			} else {
+				throw new Exception("Try another graph! A weighted graph's edge has to be between 2 vertices and a weight");
+			}
 		}
 		
 
@@ -306,7 +317,7 @@ public class BibliotecaController {
 		
 		for(int i=0; i<orderVertex.size(); i++) {
 			BFSandDFSUtil aux = orderVertex.get(i);
-			dfs+=aux.getId() + " " + aux.getLevel() + " " + aux.getFatherID() + LS;
+			dfs += aux.getId() + " " + aux.getLevel() + " " + aux.getFatherID() + LS;
 		}
 		
 		return dfs;
@@ -360,51 +371,57 @@ public class BibliotecaController {
 	/**
 	 * O metodo gera e imprime a MST de um grafo
 	 * @param graphID O id do grafo
+	 * @throws Exception 
 	 */
-	public void MST(int graphID) {
+	public void MST(int graphID) throws Exception {
 		Graph graph = getGraph(graphID);
-		ArrayList<WeightedEdge> weightEdges = new ArrayList<WeightedEdge>();
-		WeightedEdge[] wes = new WeightedEdge[graph.getVertexNumber()+1];
-		int j = 0;
 		
-		for(Edge edge : graph.getEdges()) {
-			WeightedEdge we = (WeightedEdge) edge;
-			weightEdges.add(we);
-			wes[j] = we;
-			j++;
-		}
+		if(graph instanceof WeightedGraph) {
+			ArrayList<WeightedEdge> weightEdges = new ArrayList<WeightedEdge>();
+			WeightedEdge[] wes = new WeightedEdge[graph.getVertexNumber()+1];
+			int j = 0;
+		
+			for(Edge edge : graph.getEdges()) {
+				WeightedEdge we = (WeightedEdge) edge;
+				weightEdges.add(we);
+				wes[j] = we;
+				j++;
+			}
 		
 		
-		int count = graph.getVertexNumber();
-		Arrays.sort(wes, new Comparator<WeightedEdge>() {
-			public int compare(WeightedEdge a1, WeightedEdge a2) {
+			int count = graph.getVertexNumber();
+			Arrays.sort(wes, new Comparator<WeightedEdge>() {
+				public int compare(WeightedEdge a1, WeightedEdge a2) {
 				
-				if(a1.compareTo(a2) > 0) {
-					return 1;
+					if(a1.compareTo(a2) > 0) {
+						return 1;
 					
-				}else if(a1.compareTo(a2) == 0) {
-					return 0;
+					}else if(a1.compareTo(a2) == 0) {
+						return 0;
 					
-				}else {
-					return -1;
+					}else {
+						return -1;
+					}
+				}
+			
+			});
+		
+			ArrayList<WeightedEdge> mstEdges = new ArrayList<WeightedEdge>();
+			DisjoinSet vertexSet = new DisjoinSet(count+1);
+		
+			for(int i=0; i < graph.getVertexNumber() && mstEdges.size() < (count-1); i++) {
+				WeightedEdge currentEdge = wes[i];
+				int root1 = vertexSet.find(currentEdge.getFatherID());
+				int root2 = vertexSet.find(currentEdge.getConnectedTo().getId());
+			
+				if(root1 != root2) {
+					mstEdges.add(currentEdge);
+					vertexSet.union(root1, root2);
+					System.out.println(currentEdge.getFatherID() + " " +currentEdge.getConnectedTo().getId());;
 				}
 			}
-			
-		});
-		
-		ArrayList<WeightedEdge> mstEdges = new ArrayList<WeightedEdge>();
-		DisjoinSet vertexSet = new DisjoinSet(count+1);
-		
-		for(int i=0; i < graph.getVertexNumber() && mstEdges.size() < (count-1); i++) {
-			WeightedEdge currentEdge = wes[i];
-			int root1 = vertexSet.find(currentEdge.getFatherID());
-			int root2 = vertexSet.find(currentEdge.getConnectedTo().getId());
-			
-			if(root1 != root2) {
-				mstEdges.add(currentEdge);
-				vertexSet.union(root1, root2);
-				System.out.println(currentEdge.getFatherID() + " " +currentEdge.getConnectedTo().getId());;
-			}
+		} else {
+			throw new Exception("Try a weighted graph to get MST");
 		}
 	}
 	
@@ -419,21 +436,25 @@ public class BibliotecaController {
 		String shortestPath = "";
 		Graph graph = getGraph(graphID);
 		
-		Dijkstra dij = new Dijkstra(graph);
-		Vertex ver = graph.getVertex(vertex1ID);
-		Vertex ver2 = graph.getVertex(vertex2ID);
-		dij.execute(ver);
-		LinkedList<Vertex> path = dij.getPath(ver2);
+		if(graph instanceof WeightedGraph) {
+			Dijkstra dij = new Dijkstra(graph);
+			Vertex ver = graph.getVertex(vertex1ID);
+			Vertex ver2 = graph.getVertex(vertex2ID);
+			dij.execute(ver);
+			LinkedList<Vertex> path = dij.getPath(ver2);
 				
-		for(int i=0;i<path.size();i++) {
-			if(i+1<path.size()) {
-				shortestPath += path.get(i).getId()+" ";
-			}else {
-				shortestPath += path.get(i).getId();
+			for(int i=0;i<path.size();i++) {
+				if(i+1<path.size()) {
+					shortestPath += path.get(i).getId()+" ";
+				}else {
+					shortestPath += path.get(i).getId();
+				}
 			}
-		}
 		
-		return shortestPath;
+			return shortestPath;
+		} else {
+			throw new Exception("Try a weighted graph to get the shortest path");
+		}
 		
 			
 	}

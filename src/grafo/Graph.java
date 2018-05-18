@@ -106,7 +106,7 @@ public class Graph {
 	
 	@Override
 	public String toString() {
-		String saida = "Graph's ID: " + id + " | Verteces: " + vertices.toString() + " ";
+		String saida = "Graph's ID: " + id + " | Verteces: " + vertices.toString() + LS;
 		return saida;
 	}
 

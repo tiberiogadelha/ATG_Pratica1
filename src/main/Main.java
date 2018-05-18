@@ -1,5 +1,5 @@
 package main;
-import java.io.IOException;
+
 import java.util.Scanner;
 
 import biblioteca.BibliotecaFacade;
@@ -153,20 +153,21 @@ public class Main {
 		try {
 			biblioteca.readGraph(path);
 			System.out.println("New graph was created");
-		} catch (IOException e) {
-			System.out.println("There's a problem with this path! Try again, please.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
+	
 	}
 	
-	private static void readWeightedGraph() {
+	private static void readWeightedGraph()  {
 		System.out.println("Type a path to the txt: ");
 		String path = sc.nextLine();
 		
 		try {
 			biblioteca.readWeightGraph(path);
 			System.out.println("New weighted graph was created");
-		} catch (IOException e) {
-			System.out.println("There's a problem with this path! Try another path, please.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -328,7 +329,11 @@ public class Main {
 		int id = sc.nextInt();
 		sc.nextLine();
 		
-		biblioteca.MST(id);
+		try {
+			biblioteca.MST(id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public static void getAllGraphs() {

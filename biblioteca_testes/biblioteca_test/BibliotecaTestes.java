@@ -2,9 +2,6 @@ package biblioteca_test;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import biblioteca.BibliotecaController;
@@ -16,7 +13,7 @@ public class BibliotecaTestes {
 	public BibliotecaController biblioteca;
 	
 	@Test
-	public void testReadGraph() throws IOException {
+	public void testReadGraph() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readGraph("grafo3.txt");
 		Graph graph = biblioteca.getGraph(1);
@@ -25,7 +22,7 @@ public class BibliotecaTestes {
 	}
 
 	@Test
-	public void testReadWeightGraph() throws IOException {
+	public void testReadWeightGraph() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readWeightGraph("grafo4.txt");
 		Graph graph = biblioteca.getGraph(1);
@@ -62,7 +59,7 @@ public class BibliotecaTestes {
 
 	
 	@Test
-	public void testBFS() throws IOException {
+	public void testBFS() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readGraph("grafo1.txt");
 		
@@ -71,7 +68,7 @@ public class BibliotecaTestes {
 	}
 
 	@Test
-	public void testDFS() throws IOException {
+	public void testDFS() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readGraph("grafo1.txt");
 		
@@ -97,7 +94,7 @@ public class BibliotecaTestes {
 	}
 
 	@Test
-	public void testMST() throws IOException {
+	public void testMST() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readWeightGraph("grafo2.txt");
 		
