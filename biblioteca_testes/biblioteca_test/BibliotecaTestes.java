@@ -16,16 +16,6 @@ class BibliotecaTestes {
 	
 	public BibliotecaController biblioteca;
 	
-	/*@Before
-	public void setup() throws IOException {
-		biblioteca = new BibliotecaController();
-		biblioteca.readGraph("grafo1.txt");
-		biblioteca.readWeightGraph("grafo2.txt");
-		
-	}
-	*/
-	
-
 	@Test
 	public void testReadGraph() throws IOException {
 		biblioteca = new BibliotecaController();
