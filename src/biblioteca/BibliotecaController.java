@@ -3,8 +3,11 @@ package biblioteca;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import Dijkstra.Dijkstra;
 import arquivo.ArquivoController;
@@ -15,6 +18,7 @@ import grafo.Vertex;
 import grafo.WeightedEdge;
 import grafo.WeightedGraph;
 import kruskal.DisjoinSet;
+import util.BFSandDFSUtil;
 
 public class BibliotecaController {
 
@@ -232,9 +236,9 @@ public class BibliotecaController {
 		visited[vert] = true;
 		queue.add(vertex);
 		int level = 0;
-		
-		bfs += vertex.getId() + " " + level + " -" + LS;
-	
+		List<BFSandDFSUtil> orderVertex = new ArrayList<BFSandDFSUtil>();
+				
+		bfs += vertex.getId() + " " + level + " -" + LS;	
 		while (queue.size() != 0) {
 			Vertex newVert = queue.poll();
 			
@@ -248,10 +252,15 @@ public class BibliotecaController {
 				
 				if (!visited[n.getConnectedTo().getId()]) {
 					visited[n.getConnectedTo().getId()] = true;
+					orderVertex.add(new BFSandDFSUtil(n.getConnectedTo().getId(), level, n.getFatherID()));
 					queue.add(n.getConnectedTo());
-					bfs += n.getConnectedTo().getId() + " " + level + " " + n.getFatherID() + LS;
 				}
 			}
+		}
+		Collections.sort(orderVertex);
+		for(int i=0; i<orderVertex.size(); i++) {
+			BFSandDFSUtil aux = orderVertex.get(i);
+			bfs+=aux.getId() + " " + aux.getLevel() + " " + aux.getFatherID() + LS;
 		}
 		
 		return bfs;
@@ -263,16 +272,16 @@ public class BibliotecaController {
 	 * @param visited Um array de vertices visitados
 	 * @param newLevel O nivel
 	 */
-	private void DFSUtil(Vertex vertex, boolean[] visited, int newLevel) {
+	private void DFSUtil(Vertex vertex, boolean[] visited, int newLevel, List<BFSandDFSUtil> orderVertex) {
 		visited[vertex.getId()] = true;
 		ArrayList<Edge> vertexAdj = vertex.getEdges();
-		
+
 		for (int i = 0; i < vertexAdj.size(); i++) {
 			Edge n = vertexAdj.get(i);
 			
 			if (!visited[n.getConnectedTo().getId()]) {
-				System.out.println(n.getConnectedTo().getId() + " " + newLevel + " " + n.getFatherID());
-				DFSUtil(n.getConnectedTo(), visited, newLevel + 1);
+				orderVertex.add(new BFSandDFSUtil(n.getConnectedTo().getId(), newLevel, n.getFatherID()));
+				DFSUtil(n.getConnectedTo(), visited, newLevel + 1, orderVertex);
 			}
 		}
 	}
@@ -282,15 +291,25 @@ public class BibliotecaController {
 	 * @param graphID O id do grafo
 	 * @param vert O vertice pela qual a DFS vai comecar
 	 */
-	public void DFS(int graphID, int vert) {
+	public String DFS(int graphID, int vert) {
 		Graph graph = getGraph(graphID);
 		Vertex vertex = graph.getVertex(vert);
 		boolean visited[] = new boolean[graph.getVertexNumber() + 1];
 		visited[0] = true;
-		
+		String dfs = "";
+		List<BFSandDFSUtil> orderVertex = new ArrayList<BFSandDFSUtil>();
+
 		System.out.println(vertex.getId() + " 0 "+ "-");
 		
-		DFSUtil(vertex, visited, 1);
+		DFSUtil(vertex, visited, 1, orderVertex);
+		Collections.sort(orderVertex);
+		
+		for(int i=0; i<orderVertex.size(); i++) {
+			BFSandDFSUtil aux = orderVertex.get(i);
+			dfs+=aux.getId() + " " + aux.getLevel() + " " + aux.getFatherID() + LS;
+		}
+		
+		return dfs;
 
 	}
 

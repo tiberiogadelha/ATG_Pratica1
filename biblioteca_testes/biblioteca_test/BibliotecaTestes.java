@@ -1,18 +1,17 @@
 package biblioteca_test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import biblioteca.BibliotecaController;
 import grafo.Graph;
 
 
-class BibliotecaTestes {
+public class BibliotecaTestes {
 	
 	public BibliotecaController biblioteca;
 	
@@ -67,21 +66,21 @@ class BibliotecaTestes {
 		biblioteca = new BibliotecaController();
 		biblioteca.readGraph("grafo1.txt");
 		
-		System.out.println("BFS no grafo1.txt, comecando no nivel 1");
+		System.out.println("BFS no grafo1.txt, comecando no nivel 0");
 		System.out.println(biblioteca.BFS(1, 1));
 	}
 
 	@Test
-	void testDFS() throws IOException {
+	public void testDFS() throws IOException {
 		biblioteca = new BibliotecaController();
 		biblioteca.readGraph("grafo1.txt");
 		
-		System.out.println("DFS no grafo1.txt, comecando no nivel 1");
+		System.out.println("DFS no grafo1.txt, comecando no nivel 0");
 		System.out.println(biblioteca.BFS(1, 1));
 	}
 
 	@Test
-	void testConnected() throws Exception {
+	public void testConnected() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readGraph("grafo1.txt");
 		assertTrue(biblioteca.connected(1));
@@ -89,7 +88,7 @@ class BibliotecaTestes {
 	} 
 
 	@Test
-	void testShortestPath() throws Exception {
+	public void testShortestPath() throws Exception {
 		biblioteca = new BibliotecaController();
 		biblioteca.readWeightGraph("grafo2.txt");
 		
@@ -98,7 +97,7 @@ class BibliotecaTestes {
 	}
 
 	@Test
-	void testMST() throws IOException {
+	public void testMST() throws IOException {
 		biblioteca = new BibliotecaController();
 		biblioteca.readWeightGraph("grafo2.txt");
 		
