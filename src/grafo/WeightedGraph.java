@@ -7,6 +7,12 @@ public class WeightedGraph extends Graph {
 		
 	}
 	
+	/**
+	 * Adiciona uma aresta ponderada ao grafo ponderado.
+	 * @param weight Peso da aresta
+	 * @param vertex1Id Id do vertice 1
+	 * @param vertex2Id Id do vertice 2
+	 */
 	public void addEdge(float weight, int vertex1Id, int vertex2Id) {
 		Vertex vertex1 = getVertex(vertex1Id);
 		Vertex vertex2 = getVertex(vertex2Id);
@@ -19,6 +25,9 @@ public class WeightedGraph extends Graph {
 		idForEdges++;
 	}
 	
+	/**
+	 * Constroi e retorna a representacao do tipo AM, de um grafo ponderado.
+	 */
 	@Override
 	public String amRepresentation() {
 		String saida = "  ";

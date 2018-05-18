@@ -1,3 +1,4 @@
+package main;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -11,8 +12,6 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		
-		
-		
 		int option = -1;
 		
 		while(option != 0) {
@@ -20,7 +19,6 @@ public class Main {
 			System.out.println("Choose a option: ");
 			option = sc.nextInt();
 			sc.nextLine();
-			
 			
 			switch(option) {
 			
@@ -37,8 +35,10 @@ public class Main {
 				readWeightedGraph();
 				
 				break;
+				
 			case 3:
 				getGraph();
+				
 				break;
 				
 			case 4:

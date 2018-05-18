@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import Dijkstra.Dijkstra;
 import arquivo.ArquivoController;
@@ -47,27 +45,23 @@ public class BibliotecaController {
 
 	/**
 	 * Cria um novo grafo, atraves das infomacoes lidas no metodo
-	 * readWeightGraph(path) e o adiciona a biblioteca
+	 * readGraph(path) e o adiciona a biblioteca
 	 * 
 	 * @param As informacoes para criar o grafo
 	 */
 	private void createGraph(ArrayList<String> newGraph) {
-		Graph graph = null;
-		boolean graphWasCreated = false;
-
-		for (String data : newGraph) {
-
-			if (graphWasCreated == false) {
-				graph = factory.newGraph(Integer.parseInt(data));
-				graphWasCreated = true;
-
-			} else {
-				int vertex1Id = Integer.parseInt(String.valueOf(data.charAt(0)));
-				int vertex2Id = Integer.parseInt(String.valueOf(data.charAt(2)));
-				graph.addEdge(vertex1Id, vertex2Id);
-
-			}
+		int vertexNumber = Integer.parseInt(newGraph.get(0));
+		Graph graph = factory.newGraph(vertexNumber);
+		
+		for(int i = 1; i < newGraph.size(); i++) {
+			String edge = newGraph.get(i);
+			String[] vertex = edge.split(" ");
+			int vertex1Id = Integer.parseInt(String.valueOf(vertex[0]));
+			int vertex2Id = Integer.parseInt(String.valueOf(vertex[1]));
+			
+			graph.addEdge(vertex1Id, vertex2Id);
 		}
+		
 
 		graphs.add(graph);
 
@@ -98,26 +92,24 @@ public class BibliotecaController {
 	 */
 	private void createWeightGraph(ArrayList<String> newGraph) {
 
-		WeightedGraph graph = null;
-		boolean graphWasCreated = false;
-
-		for (String data : newGraph) {
-
-			if (graphWasCreated == false) {
-				graph = factory.newWeightedGraph(Integer.parseInt(data));
-				graphWasCreated = true;
-
-			} else {
-
-				int vertex1Id = Integer.parseInt(String.valueOf(data.charAt(0)));
-				int vertex2Id = Integer.parseInt(String.valueOf(data.charAt(2)));
-				float weight = Float.parseFloat(String.valueOf(data.substring(3)));
-				graph.addEdge(weight, vertex1Id, vertex2Id);
-
-			}
+		int vertexNumber = Integer.parseInt(newGraph.get(0));
+		WeightedGraph graph = factory.newWeightedGraph(vertexNumber);
+		
+		for(int i = 1; i < newGraph.size(); i++) {
+			
+			String edge = newGraph.get(i);
+			String[] vertex = edge.split(" ");
+			int vertex1Id = Integer.parseInt(String.valueOf(vertex[0]));
+			int vertex2Id = Integer.parseInt(String.valueOf(vertex[1]));
+			float weight = Float.parseFloat(String.valueOf(vertex[2]));
+			
+			graph.addEdge(weight, vertex1Id, vertex2Id);
 		}
+		
 
 		graphs.add(graph);
+
+
 
 	}
 
@@ -173,6 +165,7 @@ public class BibliotecaController {
 		if (graph != null) {
 			if (type.equalsIgnoreCase("AM")) {
 				return graph.amRepresentation();
+				
 			} else {
 				return graph.alRepresentation();
 			}
@@ -239,31 +232,44 @@ public class BibliotecaController {
 		visited[vert] = true;
 		queue.add(vertex);
 		int level = 0;
+		
 		bfs += vertex.getId() + " " + level + " -" + LS;
+	
 		while (queue.size() != 0) {
 			Vertex newVert = queue.poll();
-			if (queue.isEmpty())
+			
+			if (queue.isEmpty()) {
 				level++;
+			}
 			ArrayList<Edge> vertexAdj = newVert.getEdges();
+			
 			for (int i = 0; i < vertexAdj.size(); i++) {
 				Edge n = vertexAdj.get(i);
+				
 				if (!visited[n.getConnectedTo().getId()]) {
 					visited[n.getConnectedTo().getId()] = true;
 					queue.add(n.getConnectedTo());
 					bfs += n.getConnectedTo().getId() + " " + level + " " + n.getFatherID() + LS;
-					//System.out.println(n.getConnectedTo().getId() + " " + n.getFatherID() + " " + level);
 				}
 			}
 		}
 		
 		return bfs;
 	}
-
+	
+	/**
+	 * Metodo auxiliar da funcao DFS.
+	 * @param vertex O vertice
+	 * @param visited Um array de vertices visitados
+	 * @param newLevel O nivel
+	 */
 	private void DFSUtil(Vertex vertex, boolean[] visited, int newLevel) {
 		visited[vertex.getId()] = true;
 		ArrayList<Edge> vertexAdj = vertex.getEdges();
+		
 		for (int i = 0; i < vertexAdj.size(); i++) {
 			Edge n = vertexAdj.get(i);
+			
 			if (!visited[n.getConnectedTo().getId()]) {
 				System.out.println(n.getConnectedTo().getId() + " " + newLevel + " " + n.getFatherID());
 				DFSUtil(n.getConnectedTo(), visited, newLevel + 1);
@@ -281,7 +287,9 @@ public class BibliotecaController {
 		Vertex vertex = graph.getVertex(vert);
 		boolean visited[] = new boolean[graph.getVertexNumber() + 1];
 		visited[0] = true;
+		
 		System.out.println(vertex.getId() + " 0 "+ "-");
+		
 		DFSUtil(vertex, visited, 1);
 
 	}
@@ -302,18 +310,28 @@ public class BibliotecaController {
 		boolean[] allVertex = new boolean[graph.getVertexNumber()+1];
 		allVertex[0] = true;
 		connectedUtil(graph.getAllVertix().get(0), allVertex);
+		
 		for(int i=0; i<graph.getVertexNumber()+1; i++) {
-			if(!allVertex[i])
+			if(!allVertex[i]) {
 				isConnected = false;
+			}
 		}
-				return isConnected;
+		
+		return isConnected;
 	}
 	
+	/**
+	 * Metodo auxiliar da BFS
+	 * @param vertex O Vertice
+	 * @param visited O array de vertices visitados
+	 */
 	private void connectedUtil(Vertex vertex, boolean[] visited) {
 		visited[vertex.getId()] = true;
 		ArrayList<Edge> vertexAdj = vertex.getEdges();
+		
 		for (int i = 0; i < vertexAdj.size(); i++) {
 			Edge n = vertexAdj.get(i);
+			
 			if (!visited[n.getConnectedTo().getId()]) {
 				connectedUtil(n.getConnectedTo(), visited);
 			}
@@ -329,6 +347,7 @@ public class BibliotecaController {
 		ArrayList<WeightedEdge> weightEdges = new ArrayList<WeightedEdge>();
 		WeightedEdge[] wes = new WeightedEdge[graph.getVertexNumber()+1];
 		int j = 0;
+		
 		for(Edge edge : graph.getEdges()) {
 			WeightedEdge we = (WeightedEdge) edge;
 			weightEdges.add(we);
@@ -340,16 +359,20 @@ public class BibliotecaController {
 		int count = graph.getVertexNumber();
 		Arrays.sort(wes, new Comparator<WeightedEdge>() {
 			public int compare(WeightedEdge a1, WeightedEdge a2) {
+				
 				if(a1.compareTo(a2) > 0) {
 					return 1;
+					
 				}else if(a1.compareTo(a2) == 0) {
 					return 0;
+					
 				}else {
 					return -1;
 				}
 			}
 			
 		});
+		
 		ArrayList<WeightedEdge> mstEdges = new ArrayList<WeightedEdge>();
 		DisjoinSet vertexSet = new DisjoinSet(count+1);
 		

@@ -28,6 +28,11 @@ public class GraphFactory {
 		return graph;
 	}
 	
+	/**
+	 * Cria um novo grafo ponderado, recebendo como parametro o numero de vertices
+	 * @param numberOfVertex Numero de vertices
+	 * @return O novo grafo ponderado
+	 */
 	public WeightedGraph newWeightedGraph(int numberOfVertex) {
 		WeightedGraph graph = new WeightedGraph(id);
 		

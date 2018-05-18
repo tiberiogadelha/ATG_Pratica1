@@ -11,6 +11,12 @@ public class ArquivoController {
 		
 	}
 	
+	/**
+	 * O metodo le um arquivo e o separa cada linha em uma posicao diferente no ArrayList.
+	 * @param path O caminho do arquivo
+	 * @return Um arrayList com os dados lidos no arquivo.
+	 * @throws IOException
+	 */
 	public ArrayList<String> readFile(String path) throws IOException {
 		ArrayList<String> readout = new ArrayList<>();
 		BufferedReader in = new BufferedReader(new FileReader(path));

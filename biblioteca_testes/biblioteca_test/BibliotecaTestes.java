@@ -90,10 +90,13 @@ class BibliotecaTestes {
 		System.out.println(biblioteca.BFS(1, 1));
 	}
 
-	/*@Test
-	void testConnected() {
-		fail("Not yet implemented");
-	} */
+	@Test
+	void testConnected() throws Exception {
+		biblioteca = new BibliotecaController();
+		biblioteca.readGraph("grafo1.txt");
+		assertTrue(biblioteca.connected(1));
+
+	} 
 
 	@Test
 	void testShortestPath() throws Exception {
