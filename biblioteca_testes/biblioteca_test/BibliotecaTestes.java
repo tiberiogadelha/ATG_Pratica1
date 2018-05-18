@@ -98,10 +98,10 @@ class BibliotecaTestes {
 	@Test
 	void testShortestPath() throws Exception {
 		biblioteca = new BibliotecaController();
-		biblioteca.readGraph("grafo2.txt");
+		biblioteca.readWeightGraph("grafo2.txt");
 		
-		System.out.println("Menor caminho no grafo1.txt entre os vertices 1 e 5");
-		System.out.println(biblioteca.shortestPath(1, 2, 3));
+		System.out.println("Menor caminho no grafo2.txt entre os vertices 1 e 5");
+		System.out.println(biblioteca.shortestPath(1, 1, 5));
 	}
 
 	@Test

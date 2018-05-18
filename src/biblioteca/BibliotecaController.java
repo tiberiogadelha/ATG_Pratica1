@@ -298,46 +298,26 @@ public class BibliotecaController {
 
 	public boolean connected(int graphID) throws Exception {
 		Graph graph = getGraph(graphID);
-		boolean isConnected = false;
-		int pos = 0;
-		int cont = 0;
-
-		if (graph != null) {
-
-			while (cont < graph.getVertexNumber()) {
-				Vertex next = graph.getVertex(pos);
-				pos = getNextVertex(next);
-				if (pos != -1) {
-					cont++;
-				}
-			}
-
-			if (cont == graph.getVertexNumber()) {
-				isConnected = true;
-			}
-
-			return isConnected;
+		boolean isConnected = true;
+		boolean[] allVertex = new boolean[graph.getVertexNumber()+1];
+		allVertex[0] = true;
+		connectedUtil(graph.getAllVertix().get(0), allVertex);
+		for(int i=0; i<graph.getVertexNumber()+1; i++) {
+			if(!allVertex[i])
+				isConnected = false;
 		}
-
-		throw new Exception("There's no graph with this ID");
+				return isConnected;
 	}
-
-	/**
-	 * O metodo acha o primeiro vertice conectado recebendo como parametro um
-	 * vertice inicial.
-	 * 
-	 * @param Vertice
-	 *            do grafo
-	 * @return O indice do primeiro vertice conectado
-	 */
-	private int getNextVertex(Vertex vertex) {
-		Edge edge = vertex.getEdges().get(0);
-		if (edge != null) {
-			return edge.getConnectedTo().getId();
-		} else {
-			return -1;
+	
+	private void connectedUtil(Vertex vertex, boolean[] visited) {
+		visited[vertex.getId()] = true;
+		ArrayList<Edge> vertexAdj = vertex.getEdges();
+		for (int i = 0; i < vertexAdj.size(); i++) {
+			Edge n = vertexAdj.get(i);
+			if (!visited[n.getConnectedTo().getId()]) {
+				connectedUtil(n.getConnectedTo(), visited);
+			}
 		}
-
 	}
 	
 	/**
